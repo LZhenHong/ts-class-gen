@@ -382,21 +382,12 @@ export abstract class CGHelper {
         sb.Append("class")
         sb.Append(` ${name}`);
 
-        if (inheritClass || mImplementInterfaces.length > 0) {
-            sb.Append(" extends");
-        }
-
-        let flag = false;
         if (inheritClass) {
-            sb.Append(` ${inheritClass}`);
-            flag = true;
+            sb.Append(` extends ${inheritClass}`);
         }
 
         if (mImplementInterfaces.length > 0) {
-            if (flag) {
-                sb.Append(",");
-            }
-            sb.Append(` ${mImplementInterfaces.join(", ")}`);
+            sb.Append(` implements ${mImplementInterfaces.join(", ")}`);
         }
 
         return sb.ToString();
