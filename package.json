@@ -1,6 +1,6 @@
 {
   "name": "ts-class-gen",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Simple class generator for typescript.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
