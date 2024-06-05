@@ -50,12 +50,17 @@ export class CGFile implements ICGGenerator {
     Comment: string = "";
 
     private mImports: string[] = [];
+    private mSupplements: string[] = [];
 
     private mInterfaces: CGInterface[] = [];
     private mClasses: CGClass[] = [];
 
     AddImport(imp: string): void {
         this.mImports.push(imp);
+    }
+
+    AddSupplement(supplement: string): void {
+        this.mSupplements.push(supplement);
     }
 
     AddInterface(inter: CGInterface): void {
@@ -72,6 +77,12 @@ export class CGFile implements ICGGenerator {
 
         this.mImports.forEach(imp => {
             writer.AppendLine(`import ${imp};`);
+        });
+        writer.AppendLine();
+
+        // 补充
+        this.mSupplements.forEach(supplement => {
+            writer.AppendLine(`${CGHelper.Tab(tab)}${supplement}`);
         });
         writer.AppendLine();
 
@@ -116,15 +127,10 @@ export class CGClass implements ICGGenerator {
     public Export: boolean = false;
     public ExportAsDefault: boolean = false;
 
-    private mSupplements: string[] = [];
     private mClassDecorators: string[] = [];
     private mImplementInterfaces: string[] = [];
     private mProperties: CGProperty[] = [];
     private mMethods: CGMethod[] = [];
-
-    public AddSupplement(supplement: string): void {
-        this.mSupplements.push(supplement);
-    }
 
     public AddDecorator(decorator: string): void {
         this.mClassDecorators.push(decorator);
@@ -147,11 +153,6 @@ export class CGClass implements ICGGenerator {
         if (this.Comment && this.Comment.trim().length > 0) {
             writer.AppendLine(CGHelper.GetComment(this.Comment, tab));
         }
-
-        // 补充
-        this.mSupplements.forEach(supplement => {
-            writer.AppendLine(`${CGHelper.Tab(tab)}${supplement}`);
-        });
 
         // 类装饰器
         this.mClassDecorators.forEach(decorator => {
