@@ -115,14 +115,20 @@ export class CGClass implements ICGGenerator {
     public InheritClassName: string = "";
     public Export: boolean = false;
     public ExportAsDefault: boolean = false;
+
+    private mSupplements: string[] = [];
+    private mClassDecorators: string[] = [];
     private mImplementInterfaces: string[] = [];
     private mProperties: CGProperty[] = [];
+    private mMethods: CGMethod[] = [];
 
-    public get Properties(): CGProperty[] {
-        return this.mProperties;
+    public AddSupplement(supplement: string): void {
+        this.mSupplements.push(supplement);
     }
 
-    private mMethods: CGMethod[] = [];
+    public AddDecorator(decorator: string): void {
+        this.mClassDecorators.push(decorator);
+    }
 
     public AddImplementInterface(implInterface: string): void {
         this.mImplementInterfaces.push(implInterface);
@@ -141,6 +147,16 @@ export class CGClass implements ICGGenerator {
         if (this.Comment && this.Comment.trim().length > 0) {
             writer.AppendLine(CGHelper.GetComment(this.Comment, tab));
         }
+
+        // 补充
+        this.mSupplements.forEach(supplement => {
+            writer.AppendLine(`${CGHelper.Tab(tab)}${supplement}`);
+        });
+
+        // 类装饰器
+        this.mClassDecorators.forEach(decorator => {
+            writer.AppendLine(CGHelper.GetClassDecorator(decorator, tab));
+        });
 
         // 声明
         writer.Append(
@@ -346,6 +362,10 @@ export abstract class CGHelper {
     // 获取格式化的注释
     static GetComment(content: string, tab: number): string {
         return `${CGHelper.Tab(tab)}/** ${content} */`;
+    }
+
+    static GetClassDecorator(decorator: string, tab = 0): string {
+        return `${CGHelper.Tab(tab)}@${decorator}`;
     }
 
     // 获取类声明
