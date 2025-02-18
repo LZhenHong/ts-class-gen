@@ -4,32 +4,32 @@ import { StringBuilder } from "./StringBuilder";
 import { CGHelper } from "./CGHelper";
 
 export class CGInterface implements ICGGenerator {
-    public Comment: string = "";
-    public Name: string = "";
-    public Export: boolean = false;
+    public comment: string = "";
+    public name: string = "";
+    public isExport: boolean = false;
 
-    private mProperties: CGProperty[] = [];
+    private properties: CGProperty[] = [];
 
-    public AddProperty(property: CGProperty): void {
-        this.mProperties.push(property);
+    public addProperty(property: CGProperty): void {
+        this.properties.push(property);
     }
 
-    public WriteTo(writer: StringBuilder, tab: number = 0): void {
+    public writeTo(writer: StringBuilder, tab: number = 0): void {
         // 注释
-        if (this.Comment && this.Comment.trim().length > 0) {
-            writer.AppendLine(CGHelper.GetComment(this.Comment, tab));
+        if (this.comment && this.comment.trim().length > 0) {
+            writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
         // 声明
-        writer.Append(CGHelper.GetInterfaceDeclaration(tab, this.Name, this.Export));
-        CGHelper.BeginCodeBlock(writer);
+        writer.append(CGHelper.getInterfaceDeclaration(tab, this.name, this.isExport));
+        CGHelper.beginCodeBlock(writer);
 
-        if (this.mProperties.length > 0) {
-            for (const p of this.mProperties) {
-                p.WriteTo(writer, tab + 1);
+        if (this.properties.length > 0) {
+            for (const p of this.properties) {
+                p.writeTo(writer, tab + 1);
             }
         }
 
-        CGHelper.EndCodeBlock(writer, tab);
+        CGHelper.endCodeBlock(writer, tab);
     }
 }

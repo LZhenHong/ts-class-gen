@@ -1,5 +1,5 @@
 import { StringBuilder } from "./StringBuilder";
 
 export interface ICGGenerator {
-    WriteTo(writer: StringBuilder, tab?: number): void;
+    writeTo(writer: StringBuilder, tab?: number): void;
 }

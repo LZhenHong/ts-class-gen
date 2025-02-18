@@ -2,20 +2,20 @@ import { ICGGenerator } from "./ICGGenerator";
 import { StringBuilder } from "./StringBuilder";
 
 export class CGParameter implements ICGGenerator {
-    public Type: string = "";
-    public Name: string = "any";
-    public DefaultValue: any;
+    public type: string = "";
+    public name: string = "any";
+    public defaultValue: any;
 
-    public WriteTo(writer: StringBuilder, tab: number = 0): void {
-        writer.Append(this.ToString());
+    public writeTo(writer: StringBuilder, tab: number = 0): void {
+        writer.append(this.toString());
     }
 
-    public ToString(): string {
+    public toString(): string {
         const sb = new StringBuilder();
-        sb.Append(`${this.Name}: ${this.Type}`);
-        if (this.DefaultValue) {
-            sb.Append(` = ${this.DefaultValue}`);
+        sb.append(`${this.name}: ${this.type}`);
+        if (this.defaultValue) {
+            sb.append(` = ${this.defaultValue}`);
         }
-        return sb.ToString();
+        return sb.toString();
     }
 }

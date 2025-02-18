@@ -6,80 +6,80 @@ import { CGMethod } from "./CGMethod";
 import { CGProperty } from "./CGProperty";
 
 export class CGClass implements ICGGenerator {
-    public Comment: string = "";
-    public Access: CGAccess = CGAccess.public;
-    public Name: string = "";
-    public InheritClassName: string = "";
-    public Export: boolean = false;
-    public ExportAsDefault: boolean = false;
+    public comment: string = "";
+    public access: CGAccess = CGAccess.public;
+    public name: string = "";
+    public inheritClassName: string = "";
+    public isExport: boolean = false;
+    public isExportAsDefault: boolean = false;
 
-    private mClassDecorators: string[] = [];
-    private mImplementInterfaces: string[] = [];
-    private mProperties: CGProperty[] = [];
-    private mMethods: CGMethod[] = [];
+    private classDecorators: string[] = [];
+    private implementInterfaces: string[] = [];
+    private properties: CGProperty[] = [];
+    private methods: CGMethod[] = [];
 
-    public AddDecorator(decorator: string): void {
-        this.mClassDecorators.push(decorator);
+    public addDecorator(decorator: string): void {
+        this.classDecorators.push(decorator);
     }
 
-    public AddImplementInterface(implInterface: string): void {
-        this.mImplementInterfaces.push(implInterface);
+    public addImplementInterface(implInterface: string): void {
+        this.implementInterfaces.push(implInterface);
     }
 
-    public AddProperty(property: CGProperty): void {
-        this.mProperties.push(property);
+    public addProperty(property: CGProperty): void {
+        this.properties.push(property);
     }
 
-    public AddMethod(method: CGMethod): void {
-        this.mMethods.push(method);
+    public addMethod(method: CGMethod): void {
+        this.methods.push(method);
     }
 
-    public WriteTo(writer: StringBuilder, tab: number = 0): void {
+    public writeTo(writer: StringBuilder, tab: number = 0): void {
         // 注释
-        if (this.Comment && this.Comment.trim().length > 0) {
-            writer.AppendLine(CGHelper.GetComment(this.Comment, tab));
+        if (this.comment && this.comment.trim().length > 0) {
+            writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
         // 类装饰器
-        this.mClassDecorators.forEach(decorator => {
-            writer.AppendLine(CGHelper.GetClassDecorator(decorator, tab));
+        this.classDecorators.forEach(decorator => {
+            writer.appendLine(CGHelper.getClassDecorator(decorator, tab));
         });
 
         // 声明
-        writer.Append(
-            CGHelper.GetClassDeclaration(
+        writer.append(
+            CGHelper.getClassDeclaration(
                 tab,
-                this.Name,
-                this.InheritClassName,
-                this.mImplementInterfaces,
-                this.Export,
-                this.ExportAsDefault
+                this.name,
+                this.inheritClassName,
+                this.implementInterfaces,
+                this.isExport,
+                this.isExportAsDefault
             )
         );
-        CGHelper.BeginCodeBlock(writer);
+        CGHelper.beginCodeBlock(writer);
 
-        if (this.mProperties.length > 0) {
+        if (this.properties.length > 0) {
             // 属性
-            CGHelper.BeginRegion(writer, 'Properties', tab + 1);
-            for (const p of this.mProperties) {
-                p.WriteTo(writer, tab + 1);
+            CGHelper.beginRegion(writer, 'Properties', tab + 1);
+            for (const p of this.properties) {
+                p.writeTo(writer, tab + 1);
             }
-            CGHelper.EndRegion(writer, tab + 1);
+            CGHelper.endRegion(writer, tab + 1);
 
-            if (this.mMethods.length > 0) {
-                writer.AppendLine();
+            if (this.methods.length > 0) {
+                writer.appendLine();
             }
         }
 
         // 方法
-        if (this.mMethods.length > 0) {
-            CGHelper.BeginRegion(writer, 'Methods', tab + 1);
-            for (const m of this.mMethods) {
-                m.WriteTo(writer, tab + 1);
+        if (this.methods.length > 0) {
+            CGHelper.beginRegion(writer, 'Methods', tab + 1);
+            for (const m of this.methods) {
+                m.writeTo(writer, tab + 1);
             }
-            CGHelper.EndRegion(writer, tab + 1);
+            CGHelper.endRegion(writer, tab + 1);
         }
 
-        CGHelper.EndCodeBlock(writer, tab);
+        CGHelper.endCodeBlock(writer, tab);
     }
 }

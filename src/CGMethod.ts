@@ -6,43 +6,43 @@ import { CGParameter } from "./CGParameter";
 
 export class CGMethod implements ICGGenerator {
     // 注释
-    public Comment: string = '';
+    public comment: string = '';
     // 修饰词
-    public Access: CGAccess = CGAccess.public;
+    public access: CGAccess = CGAccess.public;
     // 是否是静态方法
-    public Static: boolean = false;
+    public isStatic: boolean = false;
     // 是否是只读方法
-    public Readonly: boolean = false;
+    public isReadonly: boolean = false;
     // 返回值类型字符串
-    public ReturnType: string = 'void';
+    public returnType: string = 'void';
     // 方法名
-    public Name: string = '';
+    public name: string = '';
     // 参数
-    private mParameters: CGParameter[] = [];
+    private parameters: CGParameter[] = [];
     // 方法体代码
-    private mBodyCodes: string[] = [];
+    private bodyCodes: string[] = [];
 
-    public AppendCodes(...codes: string[]): void {
-        this.mBodyCodes.push(...codes);
+    public appendCodes(...codes: string[]): void {
+        this.bodyCodes.push(...codes);
     }
 
-    public AddParameters(...parameters: CGParameter[]): void {
-        this.mParameters.push(...parameters);
+    public addParameters(...parameters: CGParameter[]): void {
+        this.parameters.push(...parameters);
     }
 
-    public WriteTo(writer: StringBuilder, tab: number = 0): void {
+    public writeTo(writer: StringBuilder, tab: number = 0): void {
         // 注释
-        if (this.Comment && this.Comment.trim().length > 0) {
-            writer.AppendLine(CGHelper.GetComment(this.Comment, tab));
+        if (this.comment && this.comment.trim().length > 0) {
+            writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
         // 声明
-        const type = this.ReturnType || "void";
-        writer.Append(CGHelper.GetMethodDeclaration(tab, this.Access, type, this.Name, this.Static, this.mParameters.map(p => p.ToString()), this.Readonly));
+        const type = this.returnType || "void";
+        writer.append(CGHelper.getMethodDeclaration(tab, this.access, type, this.name, this.isStatic, this.parameters.map(p => p.toString()), this.isReadonly));
 
         // 方法体
-        CGHelper.BeginCodeBlock(writer);
-        this.mBodyCodes.forEach(code => writer.AppendLine(`${CGHelper.Tab(tab + 1)}${code}`));
-        CGHelper.EndCodeBlock(writer, tab);
+        CGHelper.beginCodeBlock(writer);
+        this.bodyCodes.forEach(code => writer.appendLine(`${CGHelper.tab(tab + 1)}${code}`));
+        CGHelper.endCodeBlock(writer, tab);
     }
 }

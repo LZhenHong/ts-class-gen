@@ -5,72 +5,72 @@ import { CGClass } from "./CGClass";
 import { ICGGenerator } from "./ICGGenerator";
 
 export class CGFile implements ICGGenerator {
-    DirectoryPath: string = "";
-    Name: string = "";
-    FileExtension: string = 'ts';
+    directoryPath: string = "";
+    name: string = "";
+    fileExtension: string = 'ts';
 
-    get FileName(): string {
-        return `${this.Name}.${this.FileExtension}`;
+    get fileName(): string {
+        return `${this.name}.${this.fileExtension}`;
     }
 
-    get FilePath(): string {
-        return `${this.DirectoryPath}/${this.FileName}`;
+    get filePath(): string {
+        return `${this.directoryPath}/${this.fileName}`;
     }
 
-    Author: string = "";
-    Date: Date | null = null;
-    Version: string = "";
-    Comment: string = "";
+    author: string = "";
+    date: Date | null = null;
+    version: string = "";
+    comment: string = "";
 
-    private mImports: string[] = [];
-    private mSupplements: string[] = [];
+    private imports: string[] = [];
+    private supplements: string[] = [];
 
-    private mInterfaces: CGInterface[] = [];
-    private mClasses: CGClass[] = [];
+    private interfaces: CGInterface[] = [];
+    private classes: CGClass[] = [];
 
-    AddImport(imp: string): void {
-        this.mImports.push(imp);
+    addImport(imp: string): void {
+        this.imports.push(imp);
     }
 
-    AddSupplement(supplement: string): void {
-        this.mSupplements.push(supplement);
+    addSupplement(supplement: string): void {
+        this.supplements.push(supplement);
     }
 
-    AddInterface(inter: CGInterface): void {
-        this.mInterfaces.push(inter);
+    addInterface(inter: CGInterface): void {
+        this.interfaces.push(inter);
     }
 
-    AddClass(clazz: CGClass): void {
-        this.mClasses.push(clazz);
+    addClass(clazz: CGClass): void {
+        this.classes.push(clazz);
     }
 
-    WriteTo(writer: StringBuilder, tab: number = 0): void {
-        const header = CGHelper.GetFileHeader(this.Author, this.Date, this.Version, this.Comment);
-        writer.AppendLine(header);
+    writeTo(writer: StringBuilder, tab: number = 0): void {
+        const header = CGHelper.getFileHeader(this.author, this.date, this.version, this.comment);
+        writer.appendLine(header);
 
-        this.mImports.forEach(imp => {
-            writer.AppendLine(`import ${imp};`);
+        this.imports.forEach(imp => {
+            writer.appendLine(`import ${imp};`);
         });
-        writer.AppendLine();
+        writer.appendLine();
 
         // 补充
-        this.mSupplements.forEach(supplement => {
-            writer.AppendLine(`${CGHelper.Tab(tab)}${supplement}`);
+        this.supplements.forEach(supplement => {
+            writer.appendLine(`${CGHelper.tab(tab)}${supplement}`);
         });
-        writer.AppendLine();
+        writer.appendLine();
 
-        this.mInterfaces.forEach(inter => {
-            CGHelper.BeginRegion(writer, `Interface ${inter.Name}`, tab);
-            inter.WriteTo(writer, tab);
-            CGHelper.EndRegion(writer, tab);
-            writer.AppendLine();
+        this.interfaces.forEach(inter => {
+            CGHelper.beginRegion(writer, `Interface ${inter.name}`, tab);
+            inter.writeTo(writer, tab);
+            CGHelper.endRegion(writer, tab);
+            writer.appendLine();
         });
 
-        this.mClasses.forEach(clazz => {
-            CGHelper.BeginRegion(writer, `Class ${clazz.Name}`, tab);
-            clazz.WriteTo(writer, tab);
-            CGHelper.EndRegion(writer, tab);
-            writer.AppendLine();
+        this.classes.forEach(clazz => {
+            CGHelper.beginRegion(writer, `Class ${clazz.name}`, tab);
+            clazz.writeTo(writer, tab);
+            CGHelper.endRegion(writer, tab);
+            writer.appendLine();
         });
     }
 }
