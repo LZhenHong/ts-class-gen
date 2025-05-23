@@ -7,6 +7,7 @@ export class CGInterface implements ICGGenerator {
     public comment: string = "";
     public name: string = "";
     public isExport: boolean = false;
+    public isExportAsDefault: boolean = false;
 
     private properties: CGProperty[] = [];
 
@@ -21,7 +22,7 @@ export class CGInterface implements ICGGenerator {
         }
 
         // 声明
-        writer.append(CGHelper.getInterfaceDeclaration(tab, this.name, this.isExport));
+        writer.append(CGHelper.getInterfaceDeclaration(tab, this.name, this.isExport, this.isExportAsDefault));
         CGHelper.beginCodeBlock(writer);
 
         if (this.properties.length > 0) {
