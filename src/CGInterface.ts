@@ -7,6 +7,7 @@ export class CGInterface implements ICGGenerator {
     public Comment: string = "";
     public Name: string = "";
     public Export: boolean = false;
+    public ExportAsDefault: boolean = false;
 
     private mProperties: CGProperty[] = [];
 
@@ -21,7 +22,7 @@ export class CGInterface implements ICGGenerator {
         }
 
         // 声明
-        writer.Append(CGHelper.GetInterfaceDeclaration(tab, this.Name, this.Export));
+        writer.Append(CGHelper.GetInterfaceDeclaration(tab, this.Name, this.Export, this.ExportAsDefault));
         CGHelper.BeginCodeBlock(writer);
 
         if (this.mProperties.length > 0) {

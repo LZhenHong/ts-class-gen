@@ -66,11 +66,14 @@ export abstract class CGHelper {
     }
 
     // 获取接口声明
-    static GetInterfaceDeclaration(tab: number, name: string, exp = false): string {
+    static GetInterfaceDeclaration(tab: number, name: string, exp = false, expAs = false): string {
         const sb = new StringBuilder();
         sb.Append(CGHelper.Tab(tab));
         if (exp) {
             sb.Append("export ");
+            if (expAs) {
+                sb.Append("default ");
+            }
         }
         sb.Append("interface");
         sb.Append(` ${name}`);
