@@ -4,26 +4,26 @@ import { StringBuilder } from "./StringBuilder";
 import { CGHelper } from "./CGHelper";
 
 export class CGProperty implements ICGGenerator {
-    // 注释
+    // Comment
     public comment: string = '';
-    // 修饰词
+    // Access modifier
     public access: CGAccess = CGAccess.public;
-    // 是否静态
+    // Whether it's static
     public isStatic: boolean = false;
-    // 属性类型字符串
+    // Property type string
     public type: string = 'any';
-    // 属性名
+    // Property name
     public name: string = '';
-    // 默认值
+    // Default value
     public defaultValue: string = '';
 
     public writeTo(writer: StringBuilder, tab: number = 0): void {
-        // 注释
+        // Comment
         if (this.comment && this.comment.trim().length > 0) {
             writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
-        // 声明
+        // Declaration
         const type = this.type || 'any';
         writer.appendLine(CGHelper.getPropertyDeclaration(tab, this.access, type, this.name, this.defaultValue, this.isStatic));
     }

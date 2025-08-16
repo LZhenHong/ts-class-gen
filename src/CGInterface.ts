@@ -16,12 +16,12 @@ export class CGInterface implements ICGGenerator {
     }
 
     public writeTo(writer: StringBuilder, tab: number = 0): void {
-        // 注释
+        // Comment
         if (this.comment && this.comment.trim().length > 0) {
             writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
-        // 声明
+        // Declaration
         writer.append(CGHelper.getInterfaceDeclaration(tab, this.name, this.isExport, this.isExportAsDefault));
         CGHelper.beginCodeBlock(writer);
 

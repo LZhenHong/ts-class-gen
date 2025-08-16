@@ -5,21 +5,21 @@ import { CGHelper } from "./CGHelper";
 import { CGParameter } from "./CGParameter";
 
 export class CGMethod implements ICGGenerator {
-    // 注释
+    // Comment
     public comment: string = '';
-    // 修饰词
+    // Access modifier
     public access: CGAccess = CGAccess.public;
-    // 是否是静态方法
+    // Whether it's a static method
     public isStatic: boolean = false;
-    // 是否是只读方法
+    // Whether it's a readonly method
     public isReadonly: boolean = false;
-    // 返回值类型字符串
+    // Return type string
     public returnType: string = 'void';
-    // 方法名
+    // Method name
     public name: string = '';
-    // 参数
+    // Parameters
     private parameters: CGParameter[] = [];
-    // 方法体代码
+    // Method body code
     private bodyCodes: string[] = [];
 
     public appendCodes(...codes: string[]): void {
@@ -31,16 +31,16 @@ export class CGMethod implements ICGGenerator {
     }
 
     public writeTo(writer: StringBuilder, tab: number = 0): void {
-        // 注释
+        // Comment
         if (this.comment && this.comment.trim().length > 0) {
             writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
-        // 声明
+        // Declaration
         const type = this.returnType || "void";
         writer.append(CGHelper.getMethodDeclaration(tab, this.access, type, this.name, this.isStatic, this.parameters.map(p => p.toString()), this.isReadonly));
 
-        // 方法体
+        // Method body
         CGHelper.beginCodeBlock(writer);
         this.bodyCodes.forEach(code => writer.appendLine(`${CGHelper.tab(tab + 1)}${code}`));
         CGHelper.endCodeBlock(writer, tab);

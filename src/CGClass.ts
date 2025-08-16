@@ -35,17 +35,17 @@ export class CGClass implements ICGGenerator {
     }
 
     public writeTo(writer: StringBuilder, tab: number = 0): void {
-        // 注释
+        // Comment
         if (this.comment && this.comment.trim().length > 0) {
             writer.appendLine(CGHelper.getComment(this.comment, tab));
         }
 
-        // 类装饰器
+        // Class decorators
         this.classDecorators.forEach(decorator => {
             writer.appendLine(CGHelper.getClassDecorator(decorator, tab));
         });
 
-        // 声明
+        // Declaration
         writer.append(
             CGHelper.getClassDeclaration(
                 tab,
@@ -59,7 +59,7 @@ export class CGClass implements ICGGenerator {
         CGHelper.beginCodeBlock(writer);
 
         if (this.properties.length > 0) {
-            // 属性
+            // Properties
             CGHelper.beginRegion(writer, 'Properties', tab + 1);
             for (const p of this.properties) {
                 p.writeTo(writer, tab + 1);
@@ -71,7 +71,7 @@ export class CGClass implements ICGGenerator {
             }
         }
 
-        // 方法
+        // Methods
         if (this.methods.length > 0) {
             CGHelper.beginRegion(writer, 'Methods', tab + 1);
             for (const m of this.methods) {

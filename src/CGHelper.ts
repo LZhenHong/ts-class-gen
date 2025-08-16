@@ -8,13 +8,19 @@ export abstract class CGHelper {
         return `${year}-${month}-${day}`;
     }
 
-    // 获取代码文件标注
+    /**
+     * Get code file header
+     * @param author Author name
+     * @param date Creation date
+     * @param version Version number
+     * @param comment Description comment
+     */
     static getFileHeader(author: string, date: Date | null, version: string, comment: string): string {
         const sb = new StringBuilder();
         sb.appendLine(CGHelper.beautyLine());
         sb.appendLine(`// Author: ${author}`);
         if (date) {
-            sb.appendLine(`// Date: ${this.formatDateInYearMonthDay(date)}`);
+            sb.appendLine(`// Date: ${CGHelper.formatDateInYearMonthDay(date)}`);
         }
         sb.appendLine(`// Version: ${version}`);
         sb.appendLine(`// Description: ${comment}`);
@@ -22,7 +28,9 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 分割线
+    /**
+     * Separator line
+     */
     static beautyLine(): string {
         const sb = new StringBuilder();
         sb.append("// ");
@@ -32,7 +40,11 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 获取格式化的注释
+    /**
+     * Get formatted comment
+     * @param content Comment content
+     * @param tab Indentation level
+     */
     static getComment(content: string, tab: number): string {
         return `${CGHelper.tab(tab)}/** ${content} */`;
     }
@@ -41,7 +53,15 @@ export abstract class CGHelper {
         return `${CGHelper.tab(tab)}@${decorator}`;
     }
 
-    // 获取类声明
+    /**
+     * Get class declaration
+     * @param tab Indentation level
+     * @param name Class name
+     * @param inheritClass Extended class
+     * @param implementInterfaces Implemented interfaces
+     * @param isExport Whether to export
+     * @param isExportAsDefault Whether to export as default
+     */
     static getClassDeclaration(tab: number, name: string, inheritClass: string = "", implementInterfaces: string[] = [], isExport = false, isExportAsDefault = false): string {
         const sb = new StringBuilder();
         sb.append(CGHelper.tab(tab));
@@ -65,7 +85,13 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 获取接口声明
+    /**
+     * Get interface declaration
+     * @param tab Indentation level
+     * @param name Interface name
+     * @param isExport Whether to export
+     * @param isExportAsDefault Whether to export as default
+     */
     static getInterfaceDeclaration(tab: number, name: string, isExport = false, isExportAsDefault = false): string {
         const sb = new StringBuilder();
         sb.append(CGHelper.tab(tab));
@@ -80,7 +106,15 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 获取属性声明
+    /**
+     * Get property declaration
+     * @param tab Indentation level
+     * @param access Access modifier
+     * @param type Property type
+     * @param name Property name
+     * @param defaultValue Default value
+     * @param isStatic Whether it's static
+     */
     static getPropertyDeclaration(tab: number, access: string, type: string, name: string, defaultValue: string, isStatic: boolean = false): string {
         const sb = new StringBuilder();
         sb.append(CGHelper.tab(tab));
@@ -97,7 +131,16 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 获取方法声明
+    /**
+     * Get method declaration
+     * @param tab Indentation level
+     * @param access Access modifier
+     * @param returnType Return type
+     * @param name Method name
+     * @param isStatic Whether it's static
+     * @param parameters Parameter list
+     * @param isReadonly Whether it's readonly
+     */
     static getMethodDeclaration(tab: number, access: string, returnType: string, name: string, isStatic: boolean = false, parameters: string[] = [], isReadonly = false): string {
         const sb = new StringBuilder();
         sb.append(CGHelper.tab(tab));
@@ -113,7 +156,10 @@ export abstract class CGHelper {
         return sb.toString();
     }
 
-    // 生成制表符格式
+    /**
+     * Get indentation string
+     * @param tab Indentation level
+     */
     static tab(tab: number): string {
         let sb = '';
         for (let _ = 0; _ < tab; _++) {
@@ -122,22 +168,38 @@ export abstract class CGHelper {
         return sb;
     }
 
-    // 代码块开始花括号
+    /**
+     * Begin code block
+     * @param sb String builder
+     */
     static beginCodeBlock(sb: StringBuilder): void {
         sb.appendLine(` {`);
     }
 
-    // 代码块结束花括号
+    /**
+     * End code block
+     * @param sb String builder
+     * @param tab Indentation level
+     */
     static endCodeBlock(sb: StringBuilder, tab: number): void {
         sb.appendLine(`${CGHelper.tab(tab)}}`);
     }
 
-    // region 开始声明
+    /**
+     * Begin region
+     * @param sb String builder
+     * @param content Region name
+     * @param tab Indentation level
+     */
     static beginRegion(sb: StringBuilder, content: string, tab: number): void {
         sb.appendLine(`${CGHelper.tab(tab)}// #region ${content}`);
     }
 
-    // region 结束声明
+    /**
+     * End region
+     * @param sb String builder
+     * @param tab Indentation level
+     */
     static endRegion(sb: StringBuilder, tab: number): void {
         sb.appendLine(`${CGHelper.tab(tab)}// #endregion`);
     }

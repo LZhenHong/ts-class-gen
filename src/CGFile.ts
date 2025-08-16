@@ -53,7 +53,7 @@ export class CGFile implements ICGGenerator {
         });
         writer.appendLine();
 
-        // 补充
+        // Supplements
         this.supplements.forEach(supplement => {
             writer.appendLine(`${CGHelper.tab(tab)}${supplement}`);
         });

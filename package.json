@@ -9,7 +9,13 @@
     "url": "https://github.com/LZhenHong/ts-class-gen"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "publish:patch": "./scripts/publish.sh -p",
+    "publish:minor": "./scripts/publish.sh -m",
+    "publish:major": "./scripts/publish.sh -M",
+    "publish:beta": "./scripts/publish.sh -b",
+    "publish:tag": "./scripts/publish.sh -t",
+    "publish:dry-run": "./scripts/publish.sh --dry-run"
   },
   "keywords": [
     "typescript",
