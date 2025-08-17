@@ -37,6 +37,17 @@ clean_dist() {
     fi
 }
 
+# Run tests
+run_tests() {
+    echo "🧪 Running all tests..."
+    npm test
+    if [ $? -ne 0 ]; then
+        echo "❌ Tests failed! Aborting publish."
+        exit 1
+    fi
+    echo "✅ All tests passed!"
+}
+
 # Build project
 build_project() {
     echo "🔨 Building project..."
@@ -136,6 +147,7 @@ main() {
     
     # Execute publish steps
     clean_dist
+    run_tests
     build_project
     update_version "$version_type" "$custom_tag" "$is_beta"
     publish_package "$is_beta" "$dry_run"
